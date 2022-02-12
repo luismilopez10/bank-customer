@@ -58,27 +58,36 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public Customer update(Customer entity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		if (entity == null) {
+			throw new Exception("El customer es nulo");
+		}
+		
+		validate(entity);
+		
+		if (customerRepository.existsById(entity.getCustId()) == false) {
+			throw new Exception("El customer no existe");
+		}
+		
+		return customerRepository.save(entity);
 	}
 
 	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void delete(Customer entity) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
+	@Transactional(readOnly = false,propagation = Propagation.REQUIRED,rollbackFor = Exception.class)
 	public void deleteById(Integer id) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void validate(Customer entity) throws Exception {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
